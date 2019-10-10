@@ -8,6 +8,9 @@ public class Robot : MonoBehaviour
     //Is the type of robot
     private string robotType;
 
+    [SerializeField]
+    GameObject missileprefab;
+
     public int health;
     public int range;
     public float fireRate;
@@ -52,6 +55,9 @@ public class Robot : MonoBehaviour
 
     private void fire()
     {
+        GameObject missile = Instantiate(missileprefab);
+        missile.transform.position = missleFireSpot.transform.position;
+        missile.transform.rotation = missleFireSpot.transform.rotation;
         robot.Play("Fire");
     }
 }
