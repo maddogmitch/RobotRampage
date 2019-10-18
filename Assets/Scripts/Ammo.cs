@@ -70,6 +70,7 @@ public class Ammo : MonoBehaviour
         }
 
         tagToAmmo[tag]--;
+        gameUI.SetAmmoText(tagToAmmo[tag]);
     }
 
     // Start is called before the first frame update

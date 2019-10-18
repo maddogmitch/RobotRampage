@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 public class Game : MonoBehaviour
 {
@@ -9,6 +10,11 @@ public class Game : MonoBehaviour
     [SerializeField]
     RobotSpawn[] spawns;
     public int enemiesLeft;
+    public GameUI gameUI;
+    public GameObject player;
+    public int score;
+    public int waveCountDown;
+    public bool isGameOver;
 
     void Start()
     {
@@ -22,6 +28,24 @@ public class Game : MonoBehaviour
         {
             spawn.SpawnRobot();
             enemiesLeft++;
+        }
+
+    }
+
+    private IEnumerator updateWaveTimer()
+    {
+        while(!isGameOver)
+        {
+            yield return new WaitForSeconds(1f);
+            waveCountDown--;
+            gameUI.SetWaveText(waveCountDown);
+
+            if(waveCountDown == 0)
+            {
+                SpawnRobots();
+                waveCountDown = 30;
+                gameUI.ShowNewWaveText();
+            }
         }
     }
 }   
