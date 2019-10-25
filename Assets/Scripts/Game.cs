@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.Characters.FirstPerson;
+using UnityEngine.SceneManagement;
 
 public class Game : MonoBehaviour
 {
     private static Game singleton;
+    public GameObject gameOverPanel;
 
     [SerializeField]
     RobotSpawn[] spawns;
@@ -82,4 +85,40 @@ public class Game : MonoBehaviour
             gameUI.SetScoreText(score);
         }
     }
+
+    //Frees the mouse when game is over
+    public void OnGUI()
+    {
+        if (isGameOver && Cursor.visible == false)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+    }
+    //Is called when the game is over it freezes the robots and disables the controls and shows the gameover panel
+    public void GameOver()
+    {
+        isGameOver = true;
+        Time.timeScale = 0;
+        player.GetComponent<FirstPersonController>().enabled = false;
+        player.GetComponent<CharacterController>().enabled = false;
+        gameOverPanel.SetActive(true);
+    }
+    //Restarts the game
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(Constants.SceneBattle);
+        gameOverPanel.SetActive(true);
+    }
+    //Exits the game
+    public void Exit()
+    {
+        Application.Quit();
+    }
+    //Brings you to the main menu
+    public void MainMenu()
+    {
+        SceneManager.LoadScene(Constants.SceneMenu);
+    }
+
 }   
